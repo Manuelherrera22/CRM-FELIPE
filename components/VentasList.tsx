@@ -34,10 +34,15 @@ export default function VentasList() {
   const fetchVentas = async () => {
     try {
       const res = await fetch('/api/ventas')
+      if (!res.ok) {
+        throw new Error('Error al obtener ventas')
+      }
       const data = await res.json()
-      setVentas(data)
+      // Asegurarse de que data sea un array
+      setVentas(Array.isArray(data) ? data : [])
     } catch (error) {
       console.error('Error fetching ventas:', error)
+      setVentas([]) // Establecer array vacío en caso de error
     } finally {
       setLoading(false)
     }
@@ -98,7 +103,10 @@ export default function VentasList() {
     }
   }
 
-  const filteredVentas = ventas.filter(venta => {
+  // Asegurarse de que ventas sea un array
+  const ventasArray = Array.isArray(ventas) ? ventas : []
+  
+  const filteredVentas = ventasArray.filter(venta => {
     const matchesSearch = 
       venta.titulo.toLowerCase().includes(searchTerm.toLowerCase()) ||
       venta.cliente.nombre.toLowerCase().includes(searchTerm.toLowerCase())

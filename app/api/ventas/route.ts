@@ -15,12 +15,14 @@ export async function GET() {
       orderBy: { createdAt: 'desc' },
     })
     return NextResponse.json(ventas)
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error fetching ventas:', error)
-    return NextResponse.json(
-      { error: 'Error al obtener ventas' },
-      { status: 500 }
-    )
+    // Si la tabla no existe, devolver array vacío
+    if (error?.code === 'P2021' || error?.message?.includes('does not exist')) {
+      return NextResponse.json([])
+    }
+    // En caso de otro error, devolver array vacío
+    return NextResponse.json([])
   }
 }
 

@@ -94,10 +94,15 @@ export default function PipelineKanban() {
   const fetchVentas = async () => {
     try {
       const res = await fetch('/api/ventas')
+      if (!res.ok) {
+        throw new Error('Error al obtener ventas')
+      }
       const data = await res.json()
-      setVentas(data)
+      // Asegurarse de que data sea un array
+      setVentas(Array.isArray(data) ? data : [])
     } catch (error) {
       console.error('Error fetching ventas:', error)
+      setVentas([]) // Establecer array vacío en caso de error
     } finally {
       setLoading(false)
     }
@@ -134,12 +139,15 @@ export default function PipelineKanban() {
     }
   }
 
+  // Asegurarse de que ventas sea un array
+  const ventasArray = Array.isArray(ventas) ? ventas : []
+  
   const ventasPorEstado = estados.map(estado => ({
     ...estado,
-    ventas: ventas.filter(v => v.estado === estado.id),
+    ventas: ventasArray.filter(v => v.estado === estado.id),
   }))
 
-  const activeVenta = activeId ? ventas.find(v => v.id === activeId) : null
+  const activeVenta = activeId ? ventasArray.find(v => v.id === activeId) : null
 
   if (loading) {
     return <div className="text-center py-12">Cargando pipeline...</div>

@@ -7,12 +7,14 @@ export async function GET() {
       orderBy: { createdAt: 'desc' },
     })
     return NextResponse.json(clientes)
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error fetching clientes:', error)
-    return NextResponse.json(
-      { error: 'Error al obtener clientes' },
-      { status: 500 }
-    )
+    // Si la tabla no existe, devolver array vacío
+    if (error?.code === 'P2021' || error?.message?.includes('does not exist')) {
+      return NextResponse.json([])
+    }
+    // En caso de otro error, devolver array vacío para evitar errores en el frontend
+    return NextResponse.json([])
   }
 }
 

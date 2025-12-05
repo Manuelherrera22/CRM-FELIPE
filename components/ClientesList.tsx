@@ -30,10 +30,15 @@ export default function ClientesList() {
   const fetchClientes = async () => {
     try {
       const res = await fetch('/api/clientes')
+      if (!res.ok) {
+        throw new Error('Error al obtener clientes')
+      }
       const data = await res.json()
-      setClientes(data)
+      // Asegurarse de que data sea un array
+      setClientes(Array.isArray(data) ? data : [])
     } catch (error) {
       console.error('Error fetching clientes:', error)
+      setClientes([]) // Establecer array vacío en caso de error
     } finally {
       setLoading(false)
     }
@@ -66,7 +71,10 @@ export default function ClientesList() {
     fetchClientes()
   }
 
-  const filteredClientes = clientes.filter(cliente =>
+  // Asegurarse de que clientes sea un array
+  const clientesArray = Array.isArray(clientes) ? clientes : []
+  
+  const filteredClientes = clientesArray.filter(cliente =>
     cliente.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
     cliente.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     cliente.empresa?.toLowerCase().includes(searchTerm.toLowerCase())
