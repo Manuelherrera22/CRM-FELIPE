@@ -1,0 +1,98 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Cliente {
+  id          String   @id @default(cuid())
+  nombre      String
+  email       String?
+  telefono    String?
+  empresa     String?
+  direccion   String?
+  notas       String?
+  estado      String   @default("activo") // activo, inactivo, potencial
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  ventas      Venta[]
+  interacciones Interaccion[]
+  tareas      Tarea[]
+  
+  @@map("clientes")
+}
+
+model Venta {
+  id          String   @id @default(cuid())
+  clienteId   String
+  cliente     Cliente  @relation(fields: [clienteId], references: [id], onDelete: Cascade)
+  titulo      String
+  descripcion String?
+  monto       Float
+  estado      String   @default("pendiente") // pendiente, en_proceso, completada, cancelada
+  fechaCierre DateTime?
+  prioridad   String   @default("media") // baja, media, alta
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  interacciones Interaccion[]
+  tareas        Tarea[]
+  
+  @@map("ventas")
+}
+
+model Interaccion {
+  id          String   @id @default(cuid())
+  clienteId   String
+  cliente     Cliente  @relation(fields: [clienteId], references: [id], onDelete: Cascade)
+  ventaId     String?
+  venta       Venta?   @relation(fields: [ventaId], references: [id], onDelete: Cascade)
+  tipo        String   // llamada, email, reunion, nota, seguimiento
+  descripcion String
+  duracion    Int?     // duración en minutos (para llamadas/reuniones)
+  resultado   String?  // exitosa, no_contesto, reprogramar, etc.
+  fecha       DateTime @default(now())
+  createdAt   DateTime @default(now())
+  
+  @@map("interacciones")
+}
+
+model Tarea {
+  id          String   @id @default(cuid())
+  titulo      String
+  descripcion String?
+  clienteId   String?
+  cliente     Cliente? @relation(fields: [clienteId], references: [id], onDelete: Cascade)
+  ventaId     String?
+  venta       Venta?   @relation(fields: [ventaId], references: [id], onDelete: Cascade)
+  estado      String   @default("pendiente") // pendiente, en_proceso, completada, cancelada
+  prioridad   String   @default("media") // baja, media, alta
+  fechaVencimiento DateTime?
+  completada  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@map("tareas")
+}
+
+model Usuario {
+  id          String   @id @default(cuid())
+  nombre      String
+  email       String   @unique
+  password    String
+  rol         String   @default("usuario") // admin, usuario
+  activo      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@map("usuarios")
+}
+
+
