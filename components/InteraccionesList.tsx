@@ -5,6 +5,15 @@ import { FiPlus, FiPhone, FiMail, FiCalendar, FiFileText, FiClock } from 'react-
 import InteraccionModal from './InteraccionModal'
 import { format } from 'date-fns'
 
+interface Venta {
+  id: string
+  titulo: string
+  cliente: {
+    id: string
+    nombre: string
+  }
+}
+
 interface Interaccion {
   id: string
   tipo: string
@@ -16,10 +25,7 @@ interface Interaccion {
     id: string
     nombre: string
   }
-  venta: {
-    id: string
-    titulo: string
-  } | null
+  venta: Venta | null
 }
 
 const tipoIcons = {
