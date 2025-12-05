@@ -87,15 +87,15 @@ export default function ClientesList() {
   return (
     <>
       <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
-        <div className="p-6 bg-gradient-to-r from-primary-50 to-purple-50 border-b border-gray-200">
-          <div className="flex justify-between items-center mb-4">
+        <div className="p-4 sm:p-6 bg-gradient-to-r from-primary-50 to-purple-50 border-b border-gray-200">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
             <div>
-              <h2 className="text-2xl font-bold text-gray-900">Lista de Clientes</h2>
-              <p className="text-sm text-gray-600 mt-1">Gestiona toda tu base de clientes</p>
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Lista de Clientes</h2>
+              <p className="text-xs sm:text-sm text-gray-600 mt-1">Gestiona toda tu base de clientes</p>
             </div>
             <button
               onClick={handleAdd}
-              className="flex items-center space-x-2 bg-gradient-to-r from-primary-600 to-purple-600 text-white px-6 py-3 rounded-xl hover:shadow-lg transform hover:scale-105 transition-all duration-200 font-semibold"
+              className="w-full sm:w-auto flex items-center justify-center space-x-2 bg-gradient-to-r from-primary-600 to-purple-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-xl hover:shadow-lg transform hover:scale-105 transition-all duration-200 font-semibold text-sm sm:text-base"
             >
               <FiPlus className="w-5 h-5" />
               <span>Nuevo Cliente</span>
@@ -113,22 +113,22 @@ export default function ClientesList() {
           </div>
         </div>
 
-        <div className="p-6">
+        <div className="p-4 sm:p-6">
           {filteredClientes.length === 0 ? (
-            <div className="text-center py-16">
+            <div className="text-center py-12 sm:py-16">
               <div className="inline-flex p-4 bg-gray-100 rounded-full mb-4">
-                <FiUser className="w-12 h-12 text-gray-400" />
+                <FiUser className="w-10 h-10 sm:w-12 sm:h-12 text-gray-400" />
               </div>
-              <p className="text-lg font-semibold text-gray-900 mb-2">
+              <p className="text-base sm:text-lg font-semibold text-gray-900 mb-2">
                 {searchTerm ? 'No se encontraron clientes' : 'No hay clientes registrados'}
               </p>
-              <p className="text-gray-500 mb-6">
+              <p className="text-sm sm:text-base text-gray-500 mb-6">
                 {searchTerm ? 'Intenta con otros términos de búsqueda' : 'Comienza agregando tu primer cliente'}
               </p>
               {!searchTerm && (
                 <button
                   onClick={handleAdd}
-                  className="inline-flex items-center space-x-2 bg-gradient-to-r from-primary-600 to-purple-600 text-white px-6 py-3 rounded-xl hover:shadow-lg transform hover:scale-105 transition-all duration-200 font-semibold"
+                  className="inline-flex items-center space-x-2 bg-gradient-to-r from-primary-600 to-purple-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-xl hover:shadow-lg transform hover:scale-105 transition-all duration-200 font-semibold text-sm sm:text-base"
                 >
                   <FiPlus className="w-5 h-5" />
                   <span>Agregar Primer Cliente</span>
@@ -136,11 +136,11 @@ export default function ClientesList() {
               )}
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {filteredClientes.map((cliente) => (
                 <div
                   key={cliente.id}
-                  className="group relative bg-white border-2 border-gray-100 rounded-xl p-6 hover:shadow-xl hover:border-primary-200 transition-all duration-300 transform hover:scale-105"
+                  className="group relative bg-white border-2 border-gray-100 rounded-xl p-4 sm:p-6 hover:shadow-xl hover:border-primary-200 transition-all duration-300 transform hover:scale-105"
                 >
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex items-center space-x-3">

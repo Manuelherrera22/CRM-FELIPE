@@ -97,12 +97,15 @@ export default function InteraccionesList() {
   return (
     <>
       <div className="bg-white rounded-lg shadow-md border border-gray-200">
-        <div className="p-6 border-b border-gray-200">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-semibold text-gray-900">Historial de Interacciones</h2>
+        <div className="p-4 sm:p-6 bg-gradient-to-r from-primary-50 to-purple-50 border-b border-gray-200">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
+            <div>
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Historial de Interacciones</h2>
+              <p className="text-xs sm:text-sm text-gray-600 mt-1">Registro completo de todas tus interacciones</p>
+            </div>
             <button
               onClick={handleAdd}
-              className="flex items-center space-x-2 bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition-colors"
+              className="w-full sm:w-auto flex items-center justify-center space-x-2 bg-gradient-to-r from-primary-600 to-purple-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-xl hover:shadow-lg transform hover:scale-105 transition-all duration-200 font-semibold text-sm sm:text-base"
             >
               <FiPlus className="w-5 h-5" />
               <span>Nueva Interacción</span>
@@ -111,7 +114,7 @@ export default function InteraccionesList() {
           <select
             value={filterTipo}
             onChange={(e) => setFilterTipo(e.target.value)}
-            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+            className="w-full sm:w-auto px-4 py-2.5 sm:py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all bg-white shadow-sm"
           >
             <option value="todos">Todos los tipos</option>
             <option value="llamada">Llamadas</option>
@@ -124,7 +127,7 @@ export default function InteraccionesList() {
 
         <div className="divide-y divide-gray-200">
           {filteredInteracciones.length === 0 ? (
-            <div className="p-12 text-center text-gray-500">
+            <div className="p-8 sm:p-12 text-center text-gray-500">
               No hay interacciones registradas
             </div>
           ) : (
@@ -133,24 +136,24 @@ export default function InteraccionesList() {
               const colorClass = tipoColors[interaccion.tipo as keyof typeof tipoColors] || 'bg-gray-100 text-gray-800'
               
               return (
-                <div key={interaccion.id} className="p-6 hover:bg-gray-50 transition-colors">
-                  <div className="flex items-start space-x-4">
-                    <div className={`p-3 rounded-lg ${colorClass}`}>
-                      <Icon className="w-6 h-6" />
+                <div key={interaccion.id} className="p-4 sm:p-6 hover:bg-gray-50 transition-colors">
+                  <div className="flex items-start space-x-3 sm:space-x-4">
+                    <div className={`p-2 sm:p-3 rounded-lg ${colorClass} flex-shrink-0`}>
+                      <Icon className="w-5 h-5 sm:w-6 sm:h-6" />
                     </div>
-                    <div className="flex-1">
-                      <div className="flex items-center justify-between mb-2">
-                        <div>
-                          <h3 className="font-semibold text-gray-900 capitalize">{interaccion.tipo}</h3>
-                          <p className="text-sm text-gray-600 mt-1">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-2">
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-semibold text-sm sm:text-base text-gray-900 capitalize">{interaccion.tipo}</h3>
+                          <p className="text-xs sm:text-sm text-gray-600 mt-1">
                             Cliente: <span className="font-medium">{interaccion.cliente.nombre}</span>
                             {interaccion.venta && (
                               <> • Venta: <span className="font-medium">{interaccion.venta.titulo}</span></>
                             )}
                           </p>
                         </div>
-                        <div className="text-right">
-                          <p className="text-sm text-gray-500">
+                        <div className="text-left sm:text-right flex-shrink-0">
+                          <p className="text-xs sm:text-sm text-gray-500">
                             {format(new Date(interaccion.fecha), "PPp")}
                           </p>
                           {interaccion.duracion && (
@@ -160,7 +163,7 @@ export default function InteraccionesList() {
                           )}
                         </div>
                       </div>
-                      <p className="text-gray-700">{interaccion.descripcion}</p>
+                      <p className="text-sm sm:text-base text-gray-700">{interaccion.descripcion}</p>
                       {interaccion.resultado && (
                         <div className="mt-2">
                           <span className="text-xs px-2 py-1 bg-gray-100 text-gray-700 rounded">

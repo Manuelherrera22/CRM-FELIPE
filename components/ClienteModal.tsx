@@ -69,21 +69,21 @@ export default function ClienteModal({ cliente, onClose }: ClienteModalProps) {
   }
 
   return (
-    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto border border-gray-100">
-        <div className="sticky top-0 bg-gradient-to-r from-primary-600 to-purple-600 px-6 py-5 flex justify-between items-center">
-          <h2 className="text-2xl font-bold text-white">
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-2 sm:p-4">
+      <div className="bg-white rounded-xl sm:rounded-2xl shadow-2xl w-full max-w-2xl max-h-[95vh] sm:max-h-[90vh] overflow-y-auto border border-gray-100">
+        <div className="sticky top-0 bg-gradient-to-r from-primary-600 to-purple-600 px-4 sm:px-6 py-4 sm:py-5 flex justify-between items-center">
+          <h2 className="text-xl sm:text-2xl font-bold text-white">
             {cliente ? 'Editar Cliente' : 'Nuevo Cliente'}
           </h2>
           <button
             onClick={onClose}
             className="text-white/80 hover:text-white transition-colors p-2 hover:bg-white/20 rounded-lg"
           >
-            <FiX className="w-6 h-6" />
+            <FiX className="w-5 h-5 sm:w-6 sm:h-6" />
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-6 space-y-5">
+        <form onSubmit={handleSubmit} className="p-4 sm:p-6 space-y-4 sm:space-y-5">
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
               Nombre Completo *
@@ -97,7 +97,7 @@ export default function ClienteModal({ cliente, onClose }: ClienteModalProps) {
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Email
@@ -173,18 +173,18 @@ export default function ClienteModal({ cliente, onClose }: ClienteModalProps) {
             />
           </div>
 
-          <div className="flex justify-end space-x-4 pt-6 border-t border-gray-200">
+          <div className="flex flex-col sm:flex-row justify-end gap-3 sm:gap-4 pt-4 sm:pt-6 border-t border-gray-200">
             <button
               type="button"
               onClick={onClose}
-              className="px-6 py-3 border-2 border-gray-300 rounded-xl text-gray-700 hover:bg-gray-50 hover:border-gray-400 transition-all font-semibold"
+              className="w-full sm:w-auto px-6 py-3 border-2 border-gray-300 rounded-xl text-gray-700 hover:bg-gray-50 hover:border-gray-400 transition-all font-semibold"
             >
               Cancelar
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="px-6 py-3 bg-gradient-to-r from-primary-600 to-purple-600 text-white rounded-xl hover:shadow-lg transform hover:scale-105 transition-all disabled:opacity-50 disabled:transform-none font-semibold"
+              className="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-primary-600 to-purple-600 text-white rounded-xl hover:shadow-lg transform hover:scale-105 transition-all disabled:opacity-50 disabled:transform-none font-semibold"
             >
               {loading ? 'Guardando...' : cliente ? 'Actualizar' : 'Crear Cliente'}
             </button>

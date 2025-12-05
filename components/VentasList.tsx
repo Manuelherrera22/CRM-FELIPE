@@ -120,19 +120,22 @@ export default function VentasList() {
 
   return (
     <>
-      <div className="bg-white rounded-lg shadow-md border border-gray-200">
-        <div className="p-6 border-b border-gray-200">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-semibold text-gray-900">Lista de Ventas</h2>
+      <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+        <div className="p-4 sm:p-6 bg-gradient-to-r from-primary-50 to-purple-50 border-b border-gray-200">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
+            <div>
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Lista de Ventas</h2>
+              <p className="text-xs sm:text-sm text-gray-600 mt-1">Gestiona todas tus oportunidades</p>
+            </div>
             <button
               onClick={handleAdd}
-              className="flex items-center space-x-2 bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition-colors"
+              className="w-full sm:w-auto flex items-center justify-center space-x-2 bg-gradient-to-r from-primary-600 to-purple-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-xl hover:shadow-lg transform hover:scale-105 transition-all duration-200 font-semibold text-sm sm:text-base"
             >
               <FiPlus className="w-5 h-5" />
               <span>Nueva Venta</span>
             </button>
           </div>
-          <div className="flex space-x-4">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
             <div className="relative flex-1">
               <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
               <input
@@ -140,13 +143,13 @@ export default function VentasList() {
                 placeholder="Buscar ventas..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                className="w-full pl-10 pr-4 py-2.5 sm:py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all bg-white shadow-sm"
               />
             </div>
             <select
               value={filterEstado}
               onChange={(e) => setFilterEstado(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              className="w-full sm:w-auto px-4 py-2.5 sm:py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all bg-white shadow-sm"
             >
               <option value="todos">Todos los estados</option>
               <option value="pendiente">Pendiente</option>
@@ -157,7 +160,8 @@ export default function VentasList() {
           </div>
         </div>
 
-        <div className="overflow-x-auto">
+        {/* Vista de tabla para desktop, cards para móvil */}
+        <div className="hidden md:block overflow-x-auto">
           <table className="w-full">
             <thead className="bg-gray-50">
               <tr>
@@ -239,6 +243,66 @@ export default function VentasList() {
               )}
             </tbody>
           </table>
+        </div>
+
+        {/* Vista de cards para móvil */}
+        <div className="md:hidden p-4 sm:p-6">
+          {filteredVentas.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-gray-500">
+                {searchTerm || filterEstado !== 'todos' 
+                  ? 'No se encontraron ventas' 
+                  : 'No hay ventas registradas'}
+              </p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 gap-4">
+              {filteredVentas.map((venta) => (
+                <div
+                  key={venta.id}
+                  className="bg-white border-2 border-gray-100 rounded-xl p-4 hover:shadow-lg hover:border-primary-200 transition-all"
+                >
+                  <div className="flex items-start justify-between mb-3">
+                    <div className="flex-1">
+                      <h3 className="text-lg font-bold text-gray-900 mb-1">{venta.titulo}</h3>
+                      <p className="text-sm text-gray-600 mb-2">Cliente: {venta.cliente.nombre}</p>
+                      {venta.descripcion && (
+                        <p className="text-sm text-gray-500 line-clamp-2">{venta.descripcion}</p>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center space-x-1 text-primary-600 font-bold">
+                      <FiDollarSign className="w-4 h-4" />
+                      <span>${venta.monto.toLocaleString()}</span>
+                    </div>
+                    <div className="flex gap-2">
+                      <span className={`px-2 py-1 text-xs font-semibold rounded-full ${getEstadoColor(venta.estado)}`}>
+                        {venta.estado.replace('_', ' ')}
+                      </span>
+                      <span className={`px-2 py-1 text-xs font-semibold rounded-full ${getPrioridadColor(venta.prioridad)}`}>
+                        {venta.prioridad}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-end space-x-2 pt-3 border-t border-gray-100">
+                    <button
+                      onClick={() => handleEdit(venta)}
+                      className="p-2 text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
+                    >
+                      <FiEdit className="w-5 h-5" />
+                    </button>
+                    <button
+                      onClick={() => handleDelete(venta.id)}
+                      className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                    >
+                      <FiTrash2 className="w-5 h-5" />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 

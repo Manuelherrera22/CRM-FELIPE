@@ -5,6 +5,29 @@ import { FiUsers, FiDollarSign, FiTrendingUp, FiClock, FiCheckSquare, FiMessageS
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, PieChart, Pie, Cell } from 'recharts'
 import Link from 'next/link'
 
+// Hook para detectar tamaño de pantalla
+function useWindowSize() {
+  const [windowSize, setWindowSize] = useState({
+    width: typeof window !== 'undefined' ? window.innerWidth : 1024,
+    height: typeof window !== 'undefined' ? window.innerHeight : 768,
+  })
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      })
+    }
+
+    window.addEventListener('resize', handleResize)
+    handleResize()
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  return windowSize
+}
+
 interface Stats {
   totalClientes: number
   totalVentas: number
@@ -22,6 +45,8 @@ interface Stats {
 }
 
 export default function Dashboard() {
+  const windowSize = useWindowSize()
+  const isMobile = windowSize.width < 640
   const [stats, setStats] = useState<Stats>({
     totalClientes: 0,
     totalVentas: 0,
@@ -74,12 +99,12 @@ export default function Dashboard() {
 
   if (loading) {
     return (
-      <div className="p-8">
+      <div className="p-4 sm:p-6 lg:p-8">
         <div className="animate-pulse space-y-4">
-          <div className="h-8 bg-gray-200 rounded w-1/4"></div>
-          <div className="grid grid-cols-3 gap-4">
+          <div className="h-6 sm:h-8 bg-gray-200 rounded w-1/2 sm:w-1/4"></div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {[1, 2, 3, 4, 5, 6].map((i) => (
-              <div key={i} className="h-32 bg-gray-200 rounded"></div>
+              <div key={i} className="h-32 sm:h-40 bg-gray-200 rounded-xl"></div>
             ))}
           </div>
         </div>
@@ -147,30 +172,30 @@ export default function Dashboard() {
   ]
 
   return (
-    <div className="p-8 bg-gradient-to-br from-gray-50 via-white to-gray-50 min-h-screen">
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-primary-600 to-purple-600 bg-clip-text text-transparent mb-2">
+    <div className="p-4 sm:p-6 lg:p-8 bg-gradient-to-br from-gray-50 via-white to-gray-50 min-h-screen">
+      <div className="mb-6 sm:mb-8">
+        <h1 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-primary-600 to-purple-600 bg-clip-text text-transparent mb-2">
           Dashboard
         </h1>
-        <p className="text-gray-600 text-lg">Vista general de tu negocio en tiempo real</p>
+        <p className="text-gray-600 text-base sm:text-lg">Vista general de tu negocio en tiempo real</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
         {statCards.map((stat, index) => {
           const Icon = stat.icon
           const CardContent = (
-            <div className={`group relative bg-white rounded-2xl shadow-lg p-6 border border-gray-100 hover:shadow-2xl transition-all duration-300 transform hover:scale-105 ${stat.link ? 'cursor-pointer' : ''} ${stat.alert ? 'border-red-200 bg-red-50/50' : ''} overflow-hidden`}>
-              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary-100/50 to-purple-100/50 rounded-full -mr-16 -mt-16 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              <div className="relative flex items-center justify-between">
-                <div className="flex-1">
-                  <p className="text-sm font-medium text-gray-500 mb-2">{stat.title}</p>
-                  <p className="text-3xl font-bold text-gray-900 mb-2">{stat.value}</p>
-                  <p className={`text-xs font-semibold ${stat.alert ? 'text-red-600' : 'text-green-600'}`}>
-                    {stat.change} {!stat.alert && 'vs mes anterior'}
+            <div className={`group relative bg-white rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 border border-gray-100 hover:shadow-2xl transition-all duration-300 transform hover:scale-105 ${stat.link ? 'cursor-pointer' : ''} ${stat.alert ? 'border-red-200 bg-red-50/50' : ''} overflow-hidden`}>
+              <div className="absolute top-0 right-0 w-24 h-24 sm:w-32 sm:h-32 bg-gradient-to-br from-primary-100/50 to-purple-100/50 rounded-full -mr-12 -mt-12 sm:-mr-16 sm:-mt-16 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="relative flex items-center justify-between gap-3 sm:gap-4">
+                <div className="flex-1 min-w-0">
+                  <p className="text-xs sm:text-sm font-medium text-gray-500 mb-1 sm:mb-2 truncate">{stat.title}</p>
+                  <p className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1 sm:mb-2 truncate">{stat.value}</p>
+                  <p className={`text-xs font-semibold ${stat.alert ? 'text-red-600' : 'text-green-600'} truncate`}>
+                    {stat.change} {!stat.alert && <span className="hidden sm:inline">vs mes anterior</span>}
                   </p>
                 </div>
-                <div className={`${stat.color} p-4 rounded-xl shadow-lg transform group-hover:scale-110 transition-transform duration-300`}>
-                  <Icon className="w-6 h-6 text-white" />
+                <div className={`${stat.color} p-3 sm:p-4 rounded-lg sm:rounded-xl shadow-lg transform group-hover:scale-110 transition-transform duration-300 flex-shrink-0`}>
+                  <Icon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                 </div>
               </div>
             </div>
@@ -186,21 +211,27 @@ export default function Dashboard() {
         })}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 hover:shadow-xl transition-shadow duration-300">
-          <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
-            <span className="w-2 h-2 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full mr-2"></span>
-            Distribución de Ventas
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+        <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 border border-gray-100 hover:shadow-xl transition-shadow duration-300">
+          <h2 className="text-base sm:text-lg md:text-xl font-bold text-gray-900 mb-3 sm:mb-4 flex items-center">
+            <span className="w-2 h-2 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full mr-2 flex-shrink-0"></span>
+            <span className="truncate">Distribución de Ventas</span>
           </h2>
-          <ResponsiveContainer width="100%" height={300}>
+          <ResponsiveContainer width="100%" height={200} className="sm:h-[250px] md:h-[300px]">
             <PieChart>
               <Pie
                 data={pieData}
                 cx="50%"
                 cy="50%"
                 labelLine={false}
-                label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
-                outerRadius={80}
+                label={({ name, percent }) => {
+                  // En móvil, solo mostrar porcentaje, en desktop mostrar nombre y porcentaje
+                  if (isMobile) {
+                    return `${(percent * 100).toFixed(0)}%`
+                  }
+                  return `${name}: ${(percent * 100).toFixed(0)}%`
+                }}
+                outerRadius={isMobile ? 60 : 80}
                 fill="#8884d8"
                 dataKey="value"
               >
@@ -208,31 +239,51 @@ export default function Dashboard() {
                   <Cell key={`cell-${index}`} fill={entry.color} />
                 ))}
               </Pie>
-              <Tooltip />
+              <Tooltip 
+                contentStyle={{ 
+                  backgroundColor: 'white', 
+                  border: '1px solid #e5e7eb', 
+                  borderRadius: '8px',
+                  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                  fontSize: isMobile ? '11px' : '12px'
+                }} 
+              />
             </PieChart>
           </ResponsiveContainer>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 hover:shadow-xl transition-shadow duration-300">
-          <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
-            <span className="w-2 h-2 bg-gradient-to-r from-blue-400 to-cyan-500 rounded-full mr-2"></span>
-            Ventas por Estado
+        <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 border border-gray-100 hover:shadow-xl transition-shadow duration-300">
+          <h2 className="text-base sm:text-lg md:text-xl font-bold text-gray-900 mb-3 sm:mb-4 flex items-center">
+            <span className="w-2 h-2 bg-gradient-to-r from-blue-400 to-cyan-500 rounded-full mr-2 flex-shrink-0"></span>
+            <span className="truncate">Ventas por Estado</span>
           </h2>
-          <ResponsiveContainer width="100%" height={300}>
+          <ResponsiveContainer width="100%" height={200} className="sm:h-[250px] md:h-[300px]">
             <BarChart data={[
               { name: 'Pendientes', value: stats.ventasPendientes },
               { name: 'En Proceso', value: stats.totalVentas - stats.ventasCompletadas - stats.ventasPendientes },
               { name: 'Completadas', value: stats.ventasCompletadas },
             ]}>
               <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-              <XAxis dataKey="name" stroke="#6b7280" />
-              <YAxis stroke="#6b7280" />
+              <XAxis 
+                dataKey="name" 
+                stroke="#6b7280" 
+                tick={{ fontSize: isMobile ? 10 : 12 }}
+                angle={isMobile ? -45 : 0}
+                textAnchor={isMobile ? 'end' : 'middle'}
+                height={isMobile ? 60 : 30}
+              />
+              <YAxis 
+                stroke="#6b7280" 
+                tick={{ fontSize: isMobile ? 10 : 12 }}
+                width={isMobile ? 40 : 60}
+              />
               <Tooltip 
                 contentStyle={{ 
                   backgroundColor: 'white', 
                   border: '1px solid #e5e7eb', 
                   borderRadius: '8px',
-                  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                  fontSize: isMobile ? '11px' : '12px'
                 }} 
               />
               <Bar dataKey="value" fill="url(#colorGradient)" radius={[8, 8, 0, 0]}>
@@ -247,12 +298,12 @@ export default function Dashboard() {
           </ResponsiveContainer>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 hover:shadow-xl transition-shadow duration-300">
-          <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
-            <span className="w-2 h-2 bg-gradient-to-r from-purple-400 to-pink-500 rounded-full mr-2"></span>
-            Tendencia de Ventas
+        <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 border border-gray-100 hover:shadow-xl transition-shadow duration-300 md:col-span-2 lg:col-span-1">
+          <h2 className="text-base sm:text-lg md:text-xl font-bold text-gray-900 mb-3 sm:mb-4 flex items-center">
+            <span className="w-2 h-2 bg-gradient-to-r from-purple-400 to-pink-500 rounded-full mr-2 flex-shrink-0"></span>
+            <span className="truncate">Tendencia de Ventas</span>
           </h2>
-          <ResponsiveContainer width="100%" height={300}>
+          <ResponsiveContainer width="100%" height={200} className="sm:h-[250px] md:h-[300px]">
             <LineChart data={[
               { mes: 'Ene', ventas: 12 },
               { mes: 'Feb', ventas: 19 },
@@ -262,23 +313,32 @@ export default function Dashboard() {
               { mes: 'Jun', ventas: stats.ventasCompletadas },
             ]}>
               <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-              <XAxis dataKey="mes" stroke="#6b7280" />
-              <YAxis stroke="#6b7280" />
+              <XAxis 
+                dataKey="mes" 
+                stroke="#6b7280" 
+                tick={{ fontSize: isMobile ? 10 : 12 }}
+              />
+              <YAxis 
+                stroke="#6b7280" 
+                tick={{ fontSize: isMobile ? 10 : 12 }}
+                width={isMobile ? 40 : 60}
+              />
               <Tooltip 
                 contentStyle={{ 
                   backgroundColor: 'white', 
                   border: '1px solid #e5e7eb', 
                   borderRadius: '8px',
-                  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                  fontSize: isMobile ? '11px' : '12px'
                 }} 
               />
               <Line 
                 type="monotone" 
                 dataKey="ventas" 
                 stroke="url(#lineGradient)" 
-                strokeWidth={3}
-                dot={{ fill: '#0ea5e9', r: 5 }}
-                activeDot={{ r: 7 }}
+                strokeWidth={isMobile ? 2 : 3}
+                dot={{ fill: '#0ea5e9', r: isMobile ? 3 : 5 }}
+                activeDot={{ r: isMobile ? 5 : 7 }}
               >
                 <defs>
                   <linearGradient id="lineGradient" x1="0" y1="0" x2="1" y2="0">
