@@ -11,6 +11,7 @@ interface Cliente {
   telefono: string | null
   empresa: string | null
   direccion: string | null
+  notas: string | null
   estado: string
   createdAt: string
 }
