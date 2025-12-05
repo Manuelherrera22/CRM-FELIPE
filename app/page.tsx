@@ -1,7 +1,8 @@
-import Dashboard from '@/components/Dashboard'
+import { redirect } from 'next/navigation'
 
 export default function Home() {
-  return <Dashboard />
+  // Redirigir a landing por defecto, o cambiar a /dashboard si prefieres
+  redirect('/landing')
 }
 
 

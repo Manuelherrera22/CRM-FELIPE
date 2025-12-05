@@ -147,26 +147,29 @@ export default function Dashboard() {
   ]
 
   return (
-    <div className="p-8">
+    <div className="p-8 bg-gradient-to-br from-gray-50 via-white to-gray-50 min-h-screen">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-        <p className="text-gray-600 mt-2">Vista general de tu negocio</p>
+        <h1 className="text-4xl font-bold bg-gradient-to-r from-primary-600 to-purple-600 bg-clip-text text-transparent mb-2">
+          Dashboard
+        </h1>
+        <p className="text-gray-600 text-lg">Vista general de tu negocio en tiempo real</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
         {statCards.map((stat, index) => {
           const Icon = stat.icon
           const CardContent = (
-            <div className={`bg-white rounded-lg shadow-md p-6 border border-gray-200 hover:shadow-lg transition-shadow ${stat.link ? 'cursor-pointer' : ''} ${stat.alert ? 'border-red-300' : ''}`}>
-              <div className="flex items-center justify-between">
+            <div className={`group relative bg-white rounded-2xl shadow-lg p-6 border border-gray-100 hover:shadow-2xl transition-all duration-300 transform hover:scale-105 ${stat.link ? 'cursor-pointer' : ''} ${stat.alert ? 'border-red-200 bg-red-50/50' : ''} overflow-hidden`}>
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary-100/50 to-purple-100/50 rounded-full -mr-16 -mt-16 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="relative flex items-center justify-between">
                 <div className="flex-1">
-                  <p className="text-sm text-gray-600 mb-1">{stat.title}</p>
-                  <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
-                  <p className={`text-xs mt-2 ${stat.alert ? 'text-red-600 font-semibold' : 'text-green-600'}`}>
+                  <p className="text-sm font-medium text-gray-500 mb-2">{stat.title}</p>
+                  <p className="text-3xl font-bold text-gray-900 mb-2">{stat.value}</p>
+                  <p className={`text-xs font-semibold ${stat.alert ? 'text-red-600' : 'text-green-600'}`}>
                     {stat.change} {!stat.alert && 'vs mes anterior'}
                   </p>
                 </div>
-                <div className={`${stat.color} p-3 rounded-lg`}>
+                <div className={`${stat.color} p-4 rounded-xl shadow-lg transform group-hover:scale-110 transition-transform duration-300`}>
                   <Icon className="w-6 h-6 text-white" />
                 </div>
               </div>
@@ -184,8 +187,11 @@ export default function Dashboard() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">Distribución de Ventas</h2>
+        <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 hover:shadow-xl transition-shadow duration-300">
+          <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
+            <span className="w-2 h-2 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full mr-2"></span>
+            Distribución de Ventas
+          </h2>
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
               <Pie
@@ -207,25 +213,45 @@ export default function Dashboard() {
           </ResponsiveContainer>
         </div>
 
-        <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">Ventas por Estado</h2>
+        <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 hover:shadow-xl transition-shadow duration-300">
+          <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
+            <span className="w-2 h-2 bg-gradient-to-r from-blue-400 to-cyan-500 rounded-full mr-2"></span>
+            Ventas por Estado
+          </h2>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={[
               { name: 'Pendientes', value: stats.ventasPendientes },
               { name: 'En Proceso', value: stats.totalVentas - stats.ventasCompletadas - stats.ventasPendientes },
               { name: 'Completadas', value: stats.ventasCompletadas },
             ]}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Bar dataKey="value" fill="#0ea5e9" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+              <XAxis dataKey="name" stroke="#6b7280" />
+              <YAxis stroke="#6b7280" />
+              <Tooltip 
+                contentStyle={{ 
+                  backgroundColor: 'white', 
+                  border: '1px solid #e5e7eb', 
+                  borderRadius: '8px',
+                  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                }} 
+              />
+              <Bar dataKey="value" fill="url(#colorGradient)" radius={[8, 8, 0, 0]}>
+                <defs>
+                  <linearGradient id="colorGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#0ea5e9" />
+                    <stop offset="100%" stopColor="#3b82f6" />
+                  </linearGradient>
+                </defs>
+              </Bar>
             </BarChart>
           </ResponsiveContainer>
         </div>
 
-        <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">Tendencia de Ventas</h2>
+        <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 hover:shadow-xl transition-shadow duration-300">
+          <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
+            <span className="w-2 h-2 bg-gradient-to-r from-purple-400 to-pink-500 rounded-full mr-2"></span>
+            Tendencia de Ventas
+          </h2>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={[
               { mes: 'Ene', ventas: 12 },
@@ -235,11 +261,32 @@ export default function Dashboard() {
               { mes: 'May', ventas: 18 },
               { mes: 'Jun', ventas: stats.ventasCompletadas },
             ]}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="mes" />
-              <YAxis />
-              <Tooltip />
-              <Line type="monotone" dataKey="ventas" stroke="#0ea5e9" strokeWidth={2} />
+              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+              <XAxis dataKey="mes" stroke="#6b7280" />
+              <YAxis stroke="#6b7280" />
+              <Tooltip 
+                contentStyle={{ 
+                  backgroundColor: 'white', 
+                  border: '1px solid #e5e7eb', 
+                  borderRadius: '8px',
+                  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                }} 
+              />
+              <Line 
+                type="monotone" 
+                dataKey="ventas" 
+                stroke="url(#lineGradient)" 
+                strokeWidth={3}
+                dot={{ fill: '#0ea5e9', r: 5 }}
+                activeDot={{ r: 7 }}
+              >
+                <defs>
+                  <linearGradient id="lineGradient" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stopColor="#0ea5e9" />
+                    <stop offset="100%" stopColor="#3b82f6" />
+                  </linearGradient>
+                </defs>
+              </Line>
             </LineChart>
           </ResponsiveContainer>
         </div>
