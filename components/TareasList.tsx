@@ -161,26 +161,33 @@ export default function TareasList() {
       </div>
 
       <div className="bg-white rounded-2xl shadow-xl border border-gray-100">
-        <div className="p-4 sm:p-6 bg-gradient-to-r from-primary-50 to-purple-50 border-b border-gray-200 relative z-10">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
-            <div>
+        {/* Header Section */}
+        <div className="p-4 sm:p-6 bg-gradient-to-r from-primary-50 to-purple-50 border-b border-gray-200">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div className="flex-1 min-w-0">
               <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Lista de Tareas</h2>
               <p className="text-xs sm:text-sm text-gray-600 mt-1">Organiza y gestiona tus tareas</p>
             </div>
             <button
               onClick={handleAdd}
-              className="w-full sm:w-auto flex items-center justify-center space-x-2 bg-gradient-to-r from-primary-600 to-purple-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-xl hover:shadow-lg transform hover:scale-105 transition-all duration-200 font-semibold text-sm sm:text-base"
+              className="w-full sm:w-auto flex items-center justify-center space-x-2 bg-gradient-to-r from-primary-600 to-purple-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-xl hover:shadow-lg transform hover:scale-105 transition-all duration-200 font-semibold text-sm sm:text-base flex-shrink-0"
             >
               <FiPlus className="w-5 h-5" />
               <span>Nueva Tarea</span>
             </button>
           </div>
-          <div className="relative z-50">
+        </div>
+
+        {/* Filter Section - Separado para evitar que tape el header */}
+        <div className="px-4 sm:px-6 py-3 sm:py-4 bg-white border-b border-gray-100">
+          <div className="flex items-center justify-between gap-3">
+            <label className="text-sm font-medium text-gray-700 whitespace-nowrap">
+              Filtrar por:
+            </label>
             <select
               value={filterEstado}
               onChange={(e) => setFilterEstado(e.target.value)}
-              className="w-full sm:w-auto px-4 py-2.5 sm:py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all bg-white shadow-sm appearance-none cursor-pointer relative z-50"
-              style={{ zIndex: 50 }}
+              className="flex-1 sm:flex-initial sm:min-w-[200px] px-4 py-2.5 sm:py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all bg-white shadow-sm appearance-none cursor-pointer text-sm sm:text-base"
             >
               <option value="todos">Todas las tareas</option>
               <option value="pendiente">Pendientes</option>

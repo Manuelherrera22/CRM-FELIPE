@@ -206,7 +206,7 @@ export default function Dashboard() {
 
   return (
     <div className="w-full min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50">
-      <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 xl:p-10">
+      <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 xl:p-10 pt-20 sm:pt-6 lg:pt-8 xl:pt-10">
         {/* Header */}
         <div className="mb-6 sm:mb-8 lg:mb-10">
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-primary-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-2 sm:mb-3">

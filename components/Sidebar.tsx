@@ -34,7 +34,8 @@ export default function Sidebar() {
       {/* Mobile Menu Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="lg:hidden fixed top-4 left-4 z-50 p-3 bg-gradient-to-r from-primary-600 to-purple-600 text-white rounded-xl shadow-lg hover:shadow-xl transition-all"
+        className="lg:hidden fixed top-4 left-4 z-[60] p-3 bg-gradient-to-r from-primary-600 to-purple-600 text-white rounded-xl shadow-lg hover:shadow-xl transition-all"
+        aria-label="Toggle menu"
       >
         {isOpen ? <FiX className="w-6 h-6" /> : <FiMenu className="w-6 h-6" />}
       </button>
