@@ -11,6 +11,10 @@ interface Cliente {
 interface Venta {
   id: string
   titulo: string
+  cliente: {
+    id: string
+    nombre: string
+  }
 }
 
 interface Interaccion {
