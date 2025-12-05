@@ -160,8 +160,8 @@ export default function TareasList() {
         </div>
       </div>
 
-      <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
-        <div className="p-4 sm:p-6 bg-gradient-to-r from-primary-50 to-purple-50 border-b border-gray-200">
+      <div className="bg-white rounded-2xl shadow-xl border border-gray-100">
+        <div className="p-4 sm:p-6 bg-gradient-to-r from-primary-50 to-purple-50 border-b border-gray-200 relative z-10">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
             <div>
               <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Lista de Tareas</h2>
@@ -175,17 +175,20 @@ export default function TareasList() {
               <span>Nueva Tarea</span>
             </button>
           </div>
-          <select
-            value={filterEstado}
-            onChange={(e) => setFilterEstado(e.target.value)}
-            className="w-full sm:w-auto px-4 py-2.5 sm:py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all bg-white shadow-sm"
-          >
-            <option value="todos">Todas las tareas</option>
-            <option value="pendiente">Pendientes</option>
-            <option value="en_proceso">En Proceso</option>
-            <option value="completada">Completadas</option>
-            <option value="cancelada">Canceladas</option>
-          </select>
+          <div className="relative z-50">
+            <select
+              value={filterEstado}
+              onChange={(e) => setFilterEstado(e.target.value)}
+              className="w-full sm:w-auto px-4 py-2.5 sm:py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all bg-white shadow-sm appearance-none cursor-pointer relative z-50"
+              style={{ zIndex: 50 }}
+            >
+              <option value="todos">Todas las tareas</option>
+              <option value="pendiente">Pendientes</option>
+              <option value="en_proceso">En Proceso</option>
+              <option value="completada">Completadas</option>
+              <option value="cancelada">Canceladas</option>
+            </select>
+          </div>
         </div>
 
         <div className="divide-y divide-gray-200">

@@ -96,8 +96,8 @@ export default function InteraccionesList() {
 
   return (
     <>
-      <div className="bg-white rounded-lg shadow-md border border-gray-200">
-        <div className="p-4 sm:p-6 bg-gradient-to-r from-primary-50 to-purple-50 border-b border-gray-200">
+      <div className="bg-white rounded-2xl shadow-xl border border-gray-100">
+        <div className="p-4 sm:p-6 bg-gradient-to-r from-primary-50 to-purple-50 border-b border-gray-200 relative z-10">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
             <div>
               <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Historial de Interacciones</h2>
@@ -111,18 +111,21 @@ export default function InteraccionesList() {
               <span>Nueva Interacción</span>
             </button>
           </div>
-          <select
-            value={filterTipo}
-            onChange={(e) => setFilterTipo(e.target.value)}
-            className="w-full sm:w-auto px-4 py-2.5 sm:py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all bg-white shadow-sm"
-          >
-            <option value="todos">Todos los tipos</option>
-            <option value="llamada">Llamadas</option>
-            <option value="email">Emails</option>
-            <option value="reunion">Reuniones</option>
-            <option value="nota">Notas</option>
-            <option value="seguimiento">Seguimientos</option>
-          </select>
+          <div className="relative z-50">
+            <select
+              value={filterTipo}
+              onChange={(e) => setFilterTipo(e.target.value)}
+              className="w-full sm:w-auto px-4 py-2.5 sm:py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all bg-white shadow-sm appearance-none cursor-pointer relative z-50"
+              style={{ zIndex: 50 }}
+            >
+              <option value="todos">Todos los tipos</option>
+              <option value="llamada">Llamadas</option>
+              <option value="email">Emails</option>
+              <option value="reunion">Reuniones</option>
+              <option value="nota">Notas</option>
+              <option value="seguimiento">Seguimientos</option>
+            </select>
+          </div>
         </div>
 
         <div className="divide-y divide-gray-200">
