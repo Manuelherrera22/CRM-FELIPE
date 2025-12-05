@@ -5,6 +5,15 @@ import { FiPlus, FiCheck, FiClock, FiAlertCircle, FiEdit, FiTrash2 } from 'react
 import TareaModal from './TareaModal'
 import { format, isPast, isToday } from 'date-fns'
 
+interface Venta {
+  id: string
+  titulo: string
+  cliente: {
+    id: string
+    nombre: string
+  }
+}
+
 interface Tarea {
   id: string
   titulo: string
@@ -17,10 +26,7 @@ interface Tarea {
     id: string
     nombre: string
   } | null
-  venta: {
-    id: string
-    titulo: string
-  } | null
+  venta: Venta | null
 }
 
 export default function TareasList() {
